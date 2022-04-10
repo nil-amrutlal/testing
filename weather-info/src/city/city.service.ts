@@ -72,15 +72,12 @@ export class CityService{
 
 
     async findCity(id: string) {
-        let cityData;
         try {
             const cityData = await this.cityModel.findById(id);
             return cityData;
         } catch (error) {
             throw new NotAcceptableException('Could not find data for the city');
         }            
-
-
     }
 
 
