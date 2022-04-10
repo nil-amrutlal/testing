@@ -45,6 +45,9 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Swagger API docs
+This application uses the NestJS swagger module and it can be checked on /api
+
 ## Test
 
 ```bash
