@@ -1,4 +1,4 @@
-import { BadRequestException, ConsoleLogger, Injectable , Logger, NotAcceptableException, NotFoundException} from '@nestjs/common';
+import { BadRequestException, ConsoleLogger, HttpVersionNotSupportedException, Injectable , Logger, NotAcceptableException, NotFoundException} from '@nestjs/common';
 import { throws } from 'assert';
 import { threadId } from 'worker_threads';
 import { City } from './city.model'
@@ -59,11 +59,10 @@ export class CityService{
 
     async deleteCity(id: string) {
         const cityData = await this.findCity(id);
-        if(!cityData){throw new NotFoundException('Could not find city');}
 
         try {
             await this.cityModel.findByIdAndDelete(id);
-            this.logger.debug(cityData.name);
+            this.logger.debug(`Deleting${cityData.name}`);
             await this.weatherModel.findOneAndDelete({city: cityData.name});
             return {message: 'Deleted successfully'};
         } catch (error) {
@@ -78,12 +77,10 @@ export class CityService{
             const cityData = await this.cityModel.findById(id);
             return cityData;
         } catch (error) {
-            throw new NotFoundException('Could not find data for the city');
+            throw new NotAcceptableException('Could not find data for the city');
         }            
 
-        if (!cityData) {
-            throw new NotFoundException('Could not find data for the city');
-        }
+
     }
 
 
